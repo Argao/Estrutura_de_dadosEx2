@@ -125,7 +125,7 @@ int main() {
                 tam = incluirProduto(tam,produto);
                 break;
             case 2:
-
+                registrarVenda(tam,produto);
                 break;
             case 3:
 
