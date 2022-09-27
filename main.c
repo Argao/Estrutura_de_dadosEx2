@@ -8,7 +8,9 @@ struct Produto{
     int codigo;
     char descricao[50];
     float preco;
-    int quantidade;
+    int quantidadeVendida;
+    float percentualLucro;
+    float lucroObtido;
 };
 
 
@@ -22,7 +24,6 @@ int buscaProduto(int tam,int cod,struct Produto * produto){
             break;
         }
     }
-
     return pos;
 }
 
@@ -35,8 +36,13 @@ void receberDados(int pos,struct Produto *produto){
     printf("Digite o preco do produto:\n");
     scanf_s("%f",&produto[pos].preco);
     fflush(stdin);
-    printf("Digite a quantidade do produto:\n");
-    scanf_s("%d",&produto[pos].quantidade);
+    printf("Digite a quantidade vendida do produto:\n");
+    scanf_s("%d",&produto[pos].quantidadeVendida);
+    printf("Digite o percentual de lucro do produto: \n");
+    scanf_s("%f",&produto[pos].percentualLucro);
+    printf("Digite o lucro obtido:\n");
+    scanf_s("%f",&produto[pos].lucroObtido);
+
     fflush(stdin);
 };
 
@@ -64,98 +70,34 @@ int incluirProduto(int tam,struct Produto *produto){
 }
 
 //OPÇÃO 2
-void alterarProduto(int tam,struct Produto *produto){
+
+void registrarVenda(int tam,struct Produto *produto){
     int cod;
-    printf("Digite o codigo do produto que voce deseja alterar:\n");
-    scanf_s("%d",&cod);
+    printf("Digite o codigo do produto que deseja registrar a venda:\n");
     int pos = buscaProduto(tam,cod,produto);
 
     if(pos < 0){
         printf("Nenhum produto com esse codigo foi encontrado!!\n");
     } else{
-        printf("Produto encontrado:\n");
-        exibirDados(pos,produto);
-        printf("Qual dado deseja alterar?\nDigite:\n");
-        printf("1 Para alterar o codigo\n");
-        printf("2 Para alterar a descrição\n");
-        printf("3 Para alterar o preco\n");
-        printf("4 Para alterar a quantidade\n");
-        int opcao;
-        scanf_s("%d",&opcao);
-        switch (opcao) {
-
-            case 1:
-                printf("Digite o novo codigo:");
-                scanf_s("%d",&produto[pos].codigo);
-                break;
-            case 2:
-                printf("Digite a nova descricao:");
-                scanf_s("%s",&produto[pos].descricao);
-                break;
-            case 3:
-                printf("Digite o novo preco:");
-                scanf_s("%f",&produto[pos].preco);
-                break;
-            case 4:
-                printf("Digite a nova quantidade:");
-                scanf_s("%d",&produto[pos].quantidade);
-                break;
-
-            default:
-                printf("Digite uma opcao valida!\n");
-        }
+        printf("Digite a quantidade vendida do produto");
+        int qnt;
+        scanf_s("%d",qnt);
+        produto[pos].quantidadeVendida += qnt;
     }
 }
 
 //OPÇÃO 3
-void excluirProduto(int tam,struct Produto *produto){
-    int cod;
-
-    printf("Digite o codigo do produto que voce deseja excluir:\n");
-    scanf_s("%d",&cod);
-    int pos = buscaProduto(tam,cod,produto);
-
-    if(pos < 0){
-        printf("Nenhum produto com esse codigo foi encontrado!!\n");
-    } else{
-        printf("Produto encontrado:\n");
-        exibirDados(pos,produto);
-        printf("Deseja mesmo excluir esse produto?\nDigite 1 para sim ou 2 para nao:\n");
-        int confirm;
-        scanf_s("%d",&confirm);
-        if (confirm ==1){
-            produto[pos].quantidade = 0;
-            printf("Produto excluido com sucesso!\n");
-        } else {
-            printf("Exclusao cancelada!\n");
-        }
-    }
-}
-//OPÇÃO 4
-void consultarProduto(int tam,struct Produto *produto){
-    int cod;
-
-    printf("Digite o codigo do produto que voce deseja consultar:\n");
-    scanf_s("%d",&cod);
-    int pos = buscaProduto(tam,cod,produto);
-
-    if(pos < 0){
-        printf("Nenhum produto com esse codigo foi encontrado!!\n");
-    } else{
-        printf("Produto encontrado:\n");
-        exibirDados(pos,produto);
-    }
+void emitirLucratividade(){
 
 }
-//OPÇÃO 5
-void listarProdutos(int tam,struct Produto *produto){
-    printf("Lista de produtos cadastrados:\n");
-    for (int i = 0; i < tam; ++i) {
-        printf("Produto %d:\n",i);
-        exibirDados(i,produto);
-    }
 
-}
+
+
+
+
+
+
+
 
 
 int main() {
@@ -167,11 +109,9 @@ int main() {
     printf("Bem vindo ao sitema!!!\n\n");
     while (opcao != 9){
         printf("Menu:\n\n");
-        printf("1-Incluir\n");
-        printf("2-Alterar\n");
-        printf("3-Excluir\n");
-        printf("4-Consultar\n");
-        printf("5-Listar\n");
+        printf("1-Incluir Produto\n");
+        printf("2-Registrar Venda\n");
+        printf("3-Emitir Lucratividade\n");
         printf("9-Sair\n\n");
         printf("Escolha umas das opcoes acima:\n");
         scanf_s("%d",&opcao);
@@ -185,16 +125,10 @@ int main() {
                 tam = incluirProduto(tam,produto);
                 break;
             case 2:
-                alterarProduto(tam,produto);
+
                 break;
             case 3:
-                excluirProduto(tam,produto);
-                break;
-            case 4:
-                consultarProduto(tam,produto);
-                break;
-            case 5:
-                listarProdutos(tam,produto);
+
                 break;
             default:
                 printf("Digite uma opcao valida!!");
